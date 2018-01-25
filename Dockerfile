@@ -21,10 +21,10 @@ RUN mkdir /etc/stenographer
 RUN install ./configs/steno.conf /etc/stenographer/config
 
 # Install executables
-RUN install -t /usr/local/bin stenotype/stenotype
-RUN install -t /usr/local/bin stenoread
-RUN install -t /usr/local/bin stenocurl
-RUN install -t /usr/local/bin stenokeys.sh
+RUN install -t /usr/bin stenotype/stenotype
+RUN install -t /usr/bin stenoread
+RUN install -t /usr/bin stenocurl
+RUN install -t /usr/bin stenokeys.sh
 
 RUN yum install -y openssl
 ENV PATH=$PATH:$GOPATH/bin
