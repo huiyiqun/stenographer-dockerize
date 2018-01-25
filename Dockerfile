@@ -29,4 +29,4 @@ RUN install -t /usr/bin stenokeys.sh
 RUN yum install -y openssl
 ENV PATH=$PATH:$GOPATH/bin
 
-CMD stenokeys.sh stenographer stenographer && stenographer
+CMD stenokeys.sh stenographer stenographer && stenographer -syslog=false
