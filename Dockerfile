@@ -1,7 +1,9 @@
 FROM centos:7
 
 # Install dependencies
-RUN yum update -y && yum install -y epel-release && yum install -y libaio-devel leveldb-devel snappy-devel gcc-c++ make libcap-devel libseccomp-devel git golang jq which
+RUN yum update -y && yum install -y epel-release && \
+    yum install -y libaio-devel leveldb-devel snappy-devel libcap-devel libseccomp-devel \
+    gcc-c++ make git golang jq which openssl
 
 # Build stenographer
 ENV GOPATH=/go
@@ -16,6 +18,11 @@ RUN adduser --system --no-create-home stenographer
 
 # Configuration directory
 RUN mkdir /etc/stenographer
+RUN chown stenographer:stenographer /etc/stenographer
+
+# Data directory
+RUN mkdir /data
+RUN chown stenographer:stenographer /data
 
 # Install example config
 RUN install ./configs/steno.conf /etc/stenographer/config
@@ -26,7 +33,11 @@ RUN install -t /usr/bin stenoread
 RUN install -t /usr/bin stenocurl
 RUN install -t /usr/bin stenokeys.sh
 
-RUN yum install -y openssl
+# Set compabilities for stenotype
+RUN setcap 'CAP_NET_RAW+ep CAP_NET_ADMIN+ep CAP_IPC_LOCK+ep' /usr/bin/stenotype
+
 ENV PATH=$PATH:$GOPATH/bin
+
+USER stenographer
 
 CMD stenokeys.sh stenographer stenographer && stenographer -syslog=false
