@@ -17,8 +17,8 @@ RUN make -C stenotype
 RUN adduser --system --no-create-home stenographer
 
 # Configuration directory
-RUN mkdir /etc/stenographer
-RUN chown stenographer:stenographer /etc/stenographer
+RUN mkdir -p /etc/stenographer/certs
+RUN chown -R stenographer:stenographer /etc/stenographer
 
 # Data directory
 RUN mkdir /data
